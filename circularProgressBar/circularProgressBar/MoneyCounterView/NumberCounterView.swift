@@ -34,7 +34,7 @@ struct NumberCounterView: View {
                 if value == 0 {
                     proxy.scrollTo(value)
                 } else {
-                    withAnimation(.easeIn) {
+                    withAnimation(.easeOut(duration: 0.6)) {
                         proxy.scrollTo(value)
                     }
                 }
