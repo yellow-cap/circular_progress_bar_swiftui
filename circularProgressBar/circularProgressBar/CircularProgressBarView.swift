@@ -14,8 +14,8 @@ struct CircularProgressBarLayer {
 }
 
 struct CircularProgressView: View {
-    let primaryLayerProgress: Double
-    let secondaryLayersProgress: [CircularProgressBarLayer]
+    let primaryLayer: CircularProgressBarLayer
+    let secondaryLayers: [CircularProgressBarLayer]
     
     var body: some View {
         ZStack {
@@ -23,7 +23,7 @@ struct CircularProgressView: View {
             
             fistLayer()
             
-            ForEach(secondaryLayersProgress, id: \.id) { layer in
+            ForEach(secondaryLayers, id: \.id) { layer in
                 secondLayer(
                     start: layer.start,
                     current: layer.current
@@ -44,7 +44,7 @@ struct CircularProgressView: View {
     @ViewBuilder
     private func fistLayer() -> some View {
         Circle()
-            .trim(from: 0, to: primaryLayerProgress)
+            .trim(from: 0, to: primaryLayer.current)
             .stroke(
                 Color(Constants.progressBarFistLayerColor),
                 style: StrokeStyle(
@@ -53,7 +53,7 @@ struct CircularProgressView: View {
                 )
             )
             .rotationEffect(.degrees(-90))
-            .animation(.easeOut, value: primaryLayerProgress)
+            .animation(.easeOut, value: primaryLayer.current)
     }
     
     @ViewBuilder
@@ -75,8 +75,8 @@ struct CircularProgressView: View {
 
 #Preview {
     CircularProgressView(
-        primaryLayerProgress: 0.8,
-        secondaryLayersProgress: [
+        primaryLayer: CircularProgressBarLayer(id: 0, start: 0, current: 0.8),
+        secondaryLayers: [
             CircularProgressBarLayer(id: 1, start: 0.2, current: 0.3),
             CircularProgressBarLayer(id: 2, start: 0.7, current: 0.9)
         ]

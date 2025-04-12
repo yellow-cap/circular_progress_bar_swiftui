@@ -26,8 +26,12 @@ struct ContentView: View {
             
             ZStack {
                 CircularProgressView(
-                    primaryLayerProgress: workingProgress,
-                    secondaryLayersProgress: breakTimes,
+                    primaryLayer: CircularProgressBarLayer(
+                        id: 0,
+                        start: 0,
+                        current: workingProgress
+                    ),
+                    secondaryLayers: breakTimes,
                 )
                 
                 Text("\(workingProgress * 100, specifier: "%.0f")")
