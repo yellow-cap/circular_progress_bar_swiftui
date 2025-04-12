@@ -119,6 +119,8 @@ struct ContentView: View {
             start: breakStartTime,
             current: timeCounter / 100
         )
+        
+        breakCurrentTime = timeCounter / 100
     }
     
     private func stopBreak() {
