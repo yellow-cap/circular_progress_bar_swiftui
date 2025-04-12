@@ -30,8 +30,14 @@ struct NumberCounterView: View {
             }
             .frame(maxWidth: 25, maxHeight: 50)
             .scrollDisabled(true)
-            .onChange(of: value) {                
-                proxy.scrollTo(value)
+            .onChange(of: value) {
+                if value == 0 {
+                    proxy.scrollTo(value)
+                } else {
+                    withAnimation(.easeIn) {
+                        proxy.scrollTo(value)
+                    }
+                }
             }
         }
     }
