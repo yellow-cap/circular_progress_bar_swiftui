@@ -7,10 +7,15 @@
 
 import SwiftUI
 
+struct CircularProgressBarLayer {
+    let id: Int
+    let start: Double
+    let current: Double
+}
+
 struct CircularProgressView: View {
-    let firstLayerProgress: Double
-    let secondLayerProgressStart: Double?
-    let secondLayerProgressCurrent: Double?
+    let primaryLayerProgress: Double
+    let secondaryLayersProgress: [CircularProgressBarLayer]
     
     var body: some View {
         ZStack {
@@ -18,10 +23,12 @@ struct CircularProgressView: View {
             
             fistLayer()
             
-            secondLayer(
-                start: secondLayerProgressStart ?? 0,
-                current: secondLayerProgressCurrent ?? 0
-            )
+            ForEach(secondaryLayersProgress, id: \.id) { layer in
+                secondLayer(
+                    start: layer.start,
+                    current: layer.current
+                )
+            }
         }
     }
     
@@ -37,7 +44,7 @@ struct CircularProgressView: View {
     @ViewBuilder
     private func fistLayer() -> some View {
         Circle()
-            .trim(from: 0, to: firstLayerProgress)
+            .trim(from: 0, to: primaryLayerProgress)
             .stroke(
                 Color(Constants.progressBarFistLayerColor),
                 style: StrokeStyle(
@@ -46,7 +53,7 @@ struct CircularProgressView: View {
                 )
             )
             .rotationEffect(.degrees(-90))
-            .animation(.easeOut, value: firstLayerProgress)
+            .animation(.easeOut, value: primaryLayerProgress)
     }
     
     @ViewBuilder
@@ -68,9 +75,11 @@ struct CircularProgressView: View {
 
 #Preview {
     CircularProgressView(
-        firstLayerProgress: 0.8,
-        secondLayerProgressStart: 0.3,
-        secondLayerProgressCurrent: 0.5
+        primaryLayerProgress: 0.8,
+        secondaryLayersProgress: [
+            CircularProgressBarLayer(id: 1, start: 0.2, current: 0.3),
+            CircularProgressBarLayer(id: 2, start: 0.7, current: 0.9)
+        ]
     )
     .frame(maxWidth: 232, maxHeight: 232)
 }

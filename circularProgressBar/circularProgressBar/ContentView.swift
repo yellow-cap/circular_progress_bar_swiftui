@@ -10,11 +10,13 @@ import Foundation
 
 struct ContentView: View {
     @State private var timeCounter: Double = 0
+    @State private var breakCounter: Int = 0
     @State private var workingProgress: Double = 0
     @State private var breakCurrentTime: Double = 0
     @State private var breakStartTime: Double = 0
     @State private var isWorkStarted: Bool = false
     @State private var isBreakStarted: Bool = false
+    @State private var breakTimes: [CircularProgressBarLayer] = []
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -24,9 +26,8 @@ struct ContentView: View {
             
             ZStack {
                 CircularProgressView(
-                    firstLayerProgress: workingProgress,
-                    secondLayerProgressStart: breakStartTime,
-                    secondLayerProgressCurrent: breakCurrentTime
+                    primaryLayerProgress: workingProgress,
+                    secondaryLayersProgress: breakTimes,
                 )
                 
                 Text("\(workingProgress * 100, specifier: "%.0f")")
@@ -49,7 +50,7 @@ struct ContentView: View {
             }
 
             if isBreakStarted {
-                breakCurrentTime = timeCounter / 100
+                updateBreak()
             }
         }
     }
@@ -95,8 +96,25 @@ struct ContentView: View {
     }
     
     private func startBreak() {
+        breakCounter += 1
         breakStartTime = workingProgress
         isBreakStarted = true
+        
+        breakTimes.append(
+            CircularProgressBarLayer(
+                id: breakCounter,
+                start: breakStartTime,
+                current: timeCounter / 100
+            )
+        )
+    }
+    
+    private func updateBreak() {
+        breakTimes[breakCounter - 1] = CircularProgressBarLayer(
+            id: breakCounter,
+            start: breakStartTime,
+            current: timeCounter / 100
+        )
     }
     
     private func stopBreak() {
