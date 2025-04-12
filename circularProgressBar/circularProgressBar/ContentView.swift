@@ -17,12 +17,9 @@ struct ContentView: View {
     @State private var isWorkStarted: Bool = false
     @State private var isBreakStarted: Bool = false
     @State private var breakTimes: [CircularProgressBarLayer] = []
+    @State private var moneyValue: Int = 0
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    private var moneyValue: Double {
-        workingProgress * 100
-    }
     
     var body: some View {
         VStack {
@@ -53,6 +50,8 @@ struct ContentView: View {
             if isWorkStarted {
                 timeCounter += 1
                 workingProgress = timeCounter / 100
+                
+                updateMoneyValue()
             }
 
             if isBreakStarted {
@@ -132,6 +131,17 @@ struct ContentView: View {
     private func stopWork() {
         isWorkStarted = false
         isBreakStarted = false
+    }
+    
+    private func updateMoneyValue() {
+        let sum = workingProgress - breakTimes.reduce(into: 0, { $0 += ($1.current - $1.start) })
+        
+        print("<<<DEV>>> workingProgress \(workingProgress)")
+        print("<<<DEV>>> sum \(sum)")
+        
+        
+        moneyValue =  Int(sum * 100)
+        print("<<<DEV>>> \(moneyValue)")
     }
 }
 
