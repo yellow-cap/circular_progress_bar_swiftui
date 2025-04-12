@@ -8,11 +8,28 @@
 import SwiftUI
 
 struct MoneyCounterView: View {
+    private enum Constants {
+        static let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    }
+    
     let value: Int
     
     var body: some View {
-        Text(String(value))
-            .font(.largeTitle)
-            .bold()
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(Constants.numbers, id: \.self) { number in
+                        Text(String(number))
+                            .font(.largeTitle)
+                            .bold()
+                            .id(number)
+                    }
+                }
+            }
+            .scrollDisabled(true)
+            .onChange(of: value) {
+                proxy.scrollTo(value)
+            }
+        }
     }
 }

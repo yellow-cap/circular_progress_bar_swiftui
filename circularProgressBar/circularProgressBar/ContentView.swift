@@ -36,6 +36,7 @@ struct ContentView: View {
                 )
 
                 MoneyCounterView(value: moneyValue)
+                    .frame(maxWidth: 50, maxHeight: 50)
             }
             .frame(maxWidth: 232, maxHeight: 232)
             
@@ -136,12 +137,7 @@ struct ContentView: View {
     private func updateMoneyValue() {
         let sum = workingProgress - breakTimes.reduce(into: 0, { $0 += ($1.current - $1.start) })
         
-        print("<<<DEV>>> workingProgress \(workingProgress)")
-        print("<<<DEV>>> sum \(sum)")
-        
-        
         moneyValue =  Int(sum * 100)
-        print("<<<DEV>>> \(moneyValue)")
     }
 }
 
