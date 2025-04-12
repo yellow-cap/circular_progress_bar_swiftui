@@ -20,6 +20,10 @@ struct ContentView: View {
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    private var moneyValue: String {
+        String(workingProgress * 100)
+    }
+    
     var body: some View {
         VStack {
             Spacer()
@@ -33,10 +37,8 @@ struct ContentView: View {
                     ),
                     secondaryLayers: breakTimes,
                 )
-                
-                Text("\(workingProgress * 100, specifier: "%.0f")")
-                    .font(.largeTitle)
-                    .bold()
+
+                MoneyCounterView(value: moneyValue)
             }
             .frame(maxWidth: 232, maxHeight: 232)
             
