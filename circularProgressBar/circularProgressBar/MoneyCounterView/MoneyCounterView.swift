@@ -9,27 +9,57 @@ import SwiftUI
 
 struct MoneyCounterView: View {
     private enum Constants {
-        static let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        static let minValue = 0
+        static let maxValue = 9
+        static let maxNumber: Int = 3
     }
     
-    let value: Int
+    let value: Double
+    
+    @State private var number: Int = 0
     
     var body: some View {
-        ScrollViewReader { proxy in
-            ScrollView {
-                VStack(spacing: 0) {
-                    ForEach(Constants.numbers, id: \.self) { number in
-                        Text(String(number))
-                            .font(.largeTitle)
-                            .bold()
-                            .id(number)
-                    }
-                }
-            }
-            .scrollDisabled(true)
-            .onChange(of: value) {
-                proxy.scrollTo(value)
-            }
+        HStack(alignment: .center, spacing: 0) {
+            Text("$")
+                .font(.largeTitle)
+                .bold()
+            
+            NumberCounterView(value: geHundreeds())
+            NumberCounterView(value: geTenth())
+            NumberCounterView(value: getNumber())
+            
+            Text(".\(value.splitDecimal()[1])")
+                .font(.largeTitle)
+                .bold()
         }
     }
+    
+    private func getNumber() -> Int {
+        let stringValue =  String(value.splitDecimal()[0])
+        
+        guard stringValue.count <= Constants.maxNumber else { return Constants.maxNumber }
+        
+        return Int(String(stringValue.last ?? "0")) ?? 0
+    }
+    
+    private func geTenth() -> Int {
+        let stringValue =  String(value.splitDecimal()[0].dropLast())
+        
+        guard stringValue.count <= Constants.maxNumber else { return Constants.maxNumber }
+        
+        return Int(String(stringValue.last ?? "0")) ?? 0
+    }
+    
+    private func geHundreeds() -> Int {
+        let stringValue =  String(value.splitDecimal()[0].dropLast(2))
+        
+        guard stringValue.count <= Constants.maxNumber else { return Constants.maxNumber }
+        
+        return Int(String(stringValue.last ?? "0")) ?? 0
+    }
+}
+
+
+extension StringProtocol {
+    subscript(offset: Int) -> Character { self[index(startIndex, offsetBy: offset)] }
 }

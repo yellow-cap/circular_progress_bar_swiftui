@@ -17,7 +17,7 @@ struct ContentView: View {
     @State private var isWorkStarted: Bool = false
     @State private var isBreakStarted: Bool = false
     @State private var breakTimes: [CircularProgressBarLayer] = []
-    @State private var moneyValue: Int = 0
+    @State private var moneyValue: Double = 0
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -36,7 +36,6 @@ struct ContentView: View {
                 )
 
                 MoneyCounterView(value: moneyValue)
-                    .frame(maxWidth: 50, maxHeight: 50)
             }
             .frame(maxWidth: 232, maxHeight: 232)
             
@@ -135,9 +134,7 @@ struct ContentView: View {
     }
     
     private func updateMoneyValue() {
-        let sum = workingProgress - breakTimes.reduce(into: 0, { $0 += ($1.current - $1.start) })
-        
-        moneyValue =  Int(sum * 100)
+        moneyValue = (workingProgress - breakTimes.reduce(into: 0, { $0 += ($1.current - $1.start) })) * 100
     }
 }
 
