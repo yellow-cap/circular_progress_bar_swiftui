@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct CircularProgressBarLayer {
-    let id: Int
-    let start: Double
-    let current: Double
-}
-
 struct CircularProgressView: View {
     let primaryLayer: CircularProgressBarLayer
     let secondaryLayers: [CircularProgressBarLayer]
