@@ -28,7 +28,7 @@ struct MoneyCounterView: View {
             NumberCounterView(value: geTenth())
             NumberCounterView(value: getNumber())
             
-            Text(".\(value.splitDecimal()[1])")
+            Text(".\(decimals())")
                 .font(.largeTitle)
                 .bold()
         }
@@ -56,6 +56,16 @@ struct MoneyCounterView: View {
         guard stringValue.count <= Constants.maxNumber else { return Constants.maxNumber }
         
         return Int(String(stringValue.last ?? "0")) ?? 0
+    }
+    
+    private func decimals() -> String {
+        let decimals = String(value.splitDecimal()[1])
+        
+        if decimals.count < 2 {
+            return "0\(decimals)"
+        } else {
+            return String(decimals.prefix(2))
+        }
     }
 }
 
