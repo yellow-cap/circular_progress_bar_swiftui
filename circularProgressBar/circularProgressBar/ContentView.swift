@@ -134,6 +134,8 @@ struct ContentView: View {
     }
     
     private func updateMoneyValue() {
+        guard !isBreakStarted else { return }
+        
         moneyValue = (workingProgress - breakTimes.reduce(into: 0, { $0 += ($1.current - $1.start) })) * 100
     }
 }
