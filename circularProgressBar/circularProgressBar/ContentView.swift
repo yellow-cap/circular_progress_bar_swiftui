@@ -20,8 +20,8 @@ struct ContentView: View {
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    private var moneyValue: String {
-        String(workingProgress * 100)
+    private var moneyValue: Double {
+        workingProgress * 100
     }
     
     var body: some View {

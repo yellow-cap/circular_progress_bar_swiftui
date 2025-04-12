@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct MoneyCounterView: View {
-    let value: String
+    let value: Double
     
     var body: some View {
-        Text(value)
+        Text(String(value.fractionDigitsRounded(to: 1)))
             .font(.largeTitle)
             .bold()
     }
