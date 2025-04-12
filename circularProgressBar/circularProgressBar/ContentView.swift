@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct ContentView: View {
-    @State var timeCounter: Double = 0
-    @State var workingProgress: Double = 0
-    @State var breakCurrentTime: Double = 0
-    @State var breakStartTime: Double = 0
-    @State var isWorkStarted: Bool = false
-    @State var isBreakStarted: Bool = false
+    @State private var timeCounter: Double = 0
+    @State private var workingProgress: Double = 0
+    @State private var breakCurrentTime: Double = 0
+    @State private var breakStartTime: Double = 0
+    @State private var isWorkStarted: Bool = false
+    @State private var isBreakStarted: Bool = false
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -35,6 +36,8 @@ struct ContentView: View {
             .frame(maxWidth: 232, maxHeight: 232)
             
             buttons()
+            
+            log()
             
             Spacer()
             
@@ -74,6 +77,15 @@ struct ContentView: View {
                 stopWork()
             }
             .buttonStyle(.borderedProminent)
+        }
+        .padding(.vertical, 20)
+    }
+    
+    @ViewBuilder private func log() -> some View {
+        VStack(alignment: .leading) {
+            Text("Working progress: \(workingProgress.fractionDigitsRounded(to: 2))")
+            Text("Break start time: \(breakStartTime.fractionDigitsRounded(to: 2))")
+            Text("Break current time: \(breakCurrentTime.fractionDigitsRounded(to: 2))")
         }
         .padding(.vertical, 20)
     }
