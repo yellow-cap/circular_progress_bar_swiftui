@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CircularProgressView: View {
     let firstLayerProgress: Double
-    let secondLayerProgress: Double
+    let secondLayerProgressStart: Double?
+    let secondLayerProgressCurrent: Double?
     
     var body: some View {
         ZStack {
@@ -17,7 +18,10 @@ struct CircularProgressView: View {
             
             fistLayer()
             
-            secondLayer()
+            secondLayer(
+                start: secondLayerProgressStart ?? 0,
+                current: secondLayerProgressCurrent ?? 0
+            )
         }
     }
     
@@ -46,9 +50,9 @@ struct CircularProgressView: View {
     }
     
     @ViewBuilder
-    private func secondLayer() -> some View {
+    private func secondLayer(start: Double, current: Double) -> some View {
         Circle()
-            .trim(from: secondLayerProgress, to: firstLayerProgress)
+            .trim(from: start, to: current)
             .stroke(
                 Color(Constants.progressBarSecondLayerColor),
                 style: StrokeStyle(
@@ -58,11 +62,15 @@ struct CircularProgressView: View {
             )
             .shadow(color: .black.opacity(0.5), radius: 2)
             .rotationEffect(.degrees(-90))
-            .animation(.easeOut, value: firstLayerProgress)
+            .animation(.easeOut, value: current)
     }
 }
 
 #Preview {
-    CircularProgressView(firstLayerProgress: 0.8, secondLayerProgress: 0.6)
-        .frame(maxWidth: 232, maxHeight: 232)
+    CircularProgressView(
+        firstLayerProgress: 0.8,
+        secondLayerProgressStart: 0.3,
+        secondLayerProgressCurrent: 0.5
+    )
+    .frame(maxWidth: 232, maxHeight: 232)
 }
