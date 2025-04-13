@@ -34,7 +34,7 @@ struct NumberCounterView: View {
             }
             .frame(maxWidth: 25, maxHeight: 49)
             .scrollDisabled(true)
-            .onChange(of: value) {
+            .onChange(of: value) { value in
                 isScrollingStarted = true
                 
                 if value == 0 {

@@ -29,7 +29,7 @@ struct CircularProgressView: View {
     private func baseLayer() -> some View {
         Circle()
             .stroke(
-                Color(Constants.progressBarBaseLayerColor),
+                Constants.progressBarBaseLayerColor,
                 lineWidth: Constants.progressBarBaseLayerWidth
             )
     }
@@ -39,7 +39,7 @@ struct CircularProgressView: View {
         Circle()
             .trim(from: 0, to: primaryLayer.current)
             .stroke(
-                Color(Constants.progressBarFistLayerColor),
+                Constants.progressBarFistLayerColor,
                 style: StrokeStyle(
                     lineWidth: Constants.progressBarFistLayerWidth,
                     lineCap: .round
@@ -54,7 +54,7 @@ struct CircularProgressView: View {
         Circle()
             .trim(from: start, to: current)
             .stroke(
-                Color(Constants.progressBarSecondLayerColor),
+                Constants.progressBarSecondLayerColor,
                 style: StrokeStyle(
                     lineWidth: Constants.progressBarSecondLayerWidth,
                     lineCap: .round
