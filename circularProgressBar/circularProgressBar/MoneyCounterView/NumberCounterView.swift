@@ -32,7 +32,7 @@ struct NumberCounterView: View {
                     }
                 }
             }
-            .frame(maxWidth: 25, maxHeight: 50)
+            .frame(maxWidth: 25, maxHeight: 49)
             .scrollDisabled(true)
             .onChange(of: value) {
                 isScrollingStarted = true
